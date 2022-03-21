@@ -47,8 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d45494215f92e0749a3e39e754fb3c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flapForce: 10
-  rigidbody2D: {fileID: 0}
+  flapForce: 5
+  rigidbody2D: {fileID: 6373482428504969898}
+  visualAxis: {fileID: 3399567573996227527}
 --- !u!50 &6373482428504969898
 Rigidbody2D:
   serializedVersion: 4
