@@ -20,6 +20,20 @@ public class MapGenerator : MonoBehaviour
     private int remainingCurveSize = 0;
     private long nextPiExponent = 0;
     public static MapGenerator Instance;
+    public List<Spawn> targetPrefabs;
+    [SerializeField]
+    private Transform groundPosition;
+    [SerializeField]
+    private Transform aerealPosition;
+    [SerializeField]
+    private Transform entitiesParent;
+
+    [System.Serializable]
+    public class Spawn
+    {
+        public GameObject Prefab;
+        public bool canFly = false;
+    }
 
     private void Awake() 
     {    
@@ -36,7 +50,7 @@ public class MapGenerator : MonoBehaviour
 
         for (int i = 0; i < startingPlataforms; i++)
         {
-            GenerateNext();
+            GenerateNext(true);
         }
     }
 
@@ -48,11 +62,36 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    public void GenerateNext()
+    public void GenerateNext(bool preheat = false)
     {
         MapTile tile;
         tile = GenerateNextTile();
         mapTiles.Add(tile);
+
+        if (preheat)
+        {
+            GenerateTargets(min: 0, max: 2);
+        }
+        else
+            GenerateTargets();
+    }
+
+    private void GenerateTargets(int min = 0, int max = 5)
+    {
+        int random = Random.Range(0, 5);
+        for(int i = 0; i < random; i++)
+        {
+            Spawn spawn = targetPrefabs[Random.Range(0, targetPrefabs.Count)];
+            Transform position = groundPosition;
+            if (spawn.canFly)
+            {
+                position = aerealPosition;
+            }
+
+            Transform newTarget = Instantiate(spawn.Prefab).transform;
+            newTarget.position = groundPosition.position;
+            newTarget.parent = entitiesParent;
+        }
     }
 
     private MapTile GenerateNextTile()

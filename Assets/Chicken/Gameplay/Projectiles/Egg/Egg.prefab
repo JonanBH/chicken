@@ -99,6 +99,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Egg
       objectReference: {fileID: 0}
+    - target: {fileID: 3553460430135616184, guid: 543a269f53675404ba3f6356671bdc0a, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3553460430135616184, guid: 543a269f53675404ba3f6356671bdc0a, type: 3}
+      propertyPath: m_TagString
+      value: Projectile
+      objectReference: {fileID: 0}
     - target: {fileID: 4847162923018810433, guid: 543a269f53675404ba3f6356671bdc0a, type: 3}
       propertyPath: m_RootOrder
       value: 0

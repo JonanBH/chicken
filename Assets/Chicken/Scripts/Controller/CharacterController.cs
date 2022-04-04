@@ -16,6 +16,7 @@ public class CharacterController : MonoBehaviour
     private bool flyBlocked = false;
     [SerializeField]
     private float blockedTime = 1;
+    private bool playing = true;
 
 
     public static Action<GameObject> OnShootProjectile;
@@ -28,10 +29,18 @@ public class CharacterController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!playing) return;
         if(transform.position.y >= GameController.singleton.MaxHeigth && flyBlocked == false)
         {
             flyBlocked = true;
             Invoke("UnlockFly", blockedTime);
+        }
+
+        if(transform.position.y <= GameController.singleton.GameOverHeight)
+        {
+            playing = false;
+            rigidbody2D.isKinematic = true;
+            GameController.singleton.GameOver();
         }
     }
 

@@ -14,4 +14,14 @@ public class Projectile : MonoBehaviour
     {
         transform.position += direction * fallSpeed * Time.fixedDeltaTime;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Target"))
+        {
+            Target target = collision.gameObject.GetComponent<Target>();
+            target.HandleHit();
+            Destroy(gameObject);
+        }
+    }
 }

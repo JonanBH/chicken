@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -14,6 +16,13 @@ public class GameController : MonoBehaviour
     private Transform projectileParent;
     [SerializeField]
     private float maxHeigth = 3;
+    [SerializeField]
+    private float gameOverHeigth = -3;
+    [SerializeField]
+    private TMP_Text scoreText;
+    [SerializeField]
+    private GameObject gameOverPanel;
+    private int score = 0;
 
     public static bool isPlaying = false;
     public static GameController singleton;
@@ -55,11 +64,6 @@ public class GameController : MonoBehaviour
         StartGame();
     }
 
-    private void GameOver()
-    {
-
-    }
-
     private void HandleProjectileSpawn(GameObject prefab)
     {
         GameObject newProjectile = Instantiate(prefab);
@@ -69,8 +73,11 @@ public class GameController : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+        Gizmos.color = Color.red;
         Vector3 maxHeight = Vector3.up * maxHeigth;
+        Vector3 minHeight = Vector3.up * gameOverHeigth;
         Gizmos.DrawLine(Vector3.left * 3 + maxHeight, Vector3.right * 3 + maxHeight);
+        Gizmos.DrawLine(Vector3.left * 3 + minHeight, Vector3.right * 3 + minHeight);
     }
 
     public float MaxHeigth
@@ -79,5 +86,34 @@ public class GameController : MonoBehaviour
         {
             return maxHeigth;
         }
+    }
+
+    public float GameOverHeight
+    {
+        get
+        {
+            return gameOverHeigth;
+        }
+    }
+
+    public void AddScore(int points)
+    {
+        score += points;
+        UpdateScore();
+    }
+
+    public void UpdateScore()
+    {
+        scoreText.text = "Points = " + score;
+    }
+
+    public void GameOver()
+    {
+        gameOverPanel.SetActive(true);
+    }
+
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene(0);
     }
 }
