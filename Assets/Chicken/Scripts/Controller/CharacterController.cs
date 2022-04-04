@@ -13,6 +13,10 @@ public class CharacterController : MonoBehaviour
     private Transform visualAxis;
     [SerializeField]
     private GameObject projectilePrefab;
+    private bool flyBlocked = false;
+    [SerializeField]
+    private float blockedTime = 1;
+
 
     public static Action<GameObject> OnShootProjectile;
 
@@ -22,13 +26,29 @@ public class CharacterController : MonoBehaviour
         visualAxis.rotation = Quaternion.identity;
     }
 
+    private void FixedUpdate()
+    {
+        if(transform.position.y >= GameController.singleton.MaxHeigth && flyBlocked == false)
+        {
+            flyBlocked = true;
+            Invoke("UnlockFly", blockedTime);
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
     }
 
+    private void UnlockFly()
+    {
+        flyBlocked = false;
+    }
+
     public void Flap()
     {
+        if (flyBlocked) return;
+
         rigidbody2D.velocity = Vector2.zero;
         rigidbody2D.AddForce(Vector2.up * flapForce, ForceMode2D.Impulse);
         Debug.Log("Flap");

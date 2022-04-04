@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2700101423677557997}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,6 +50,7 @@ MonoBehaviour:
   flapForce: 5
   rigidbody2D: {fileID: 6373482428504969898}
   visualAxis: {fileID: 3399567573996227527}
+  projectilePrefab: {fileID: 0}
 --- !u!50 &6373482428504969898
 Rigidbody2D:
   serializedVersion: 4

@@ -9,9 +9,19 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private Transform startingPosition;
     [SerializeField]
-    private Transform mapParent;
+    private float mapSpeed = 5;
+    [SerializeField]
+    private Transform projectileParent;
+    [SerializeField]
+    private float maxHeigth = 3;
 
     public static bool isPlaying = false;
+    public static GameController singleton;
+
+    private void Awake()
+    {
+        singleton = this;
+    }
 
     private void Start()
     {
@@ -31,6 +41,8 @@ public class GameController : MonoBehaviour
                 characterController.Flap();
             }
         }
+
+        MapGenerator.Instance.MoveMap(Vector3.left * mapSpeed * Time.deltaTime);
     }
 
     private void StartGame()
@@ -52,6 +64,20 @@ public class GameController : MonoBehaviour
     {
         GameObject newProjectile = Instantiate(prefab);
         newProjectile.transform.position = characterController.transform.position;
-        newProjectile.transform.SetParent(mapParent);
+        newProjectile.transform.SetParent(projectileParent);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Vector3 maxHeight = Vector3.up * maxHeigth;
+        Gizmos.DrawLine(Vector3.left * 3 + maxHeight, Vector3.right * 3 + maxHeight);
+    }
+
+    public float MaxHeigth
+    {
+        get
+        {
+            return maxHeigth;
+        }
     }
 }
