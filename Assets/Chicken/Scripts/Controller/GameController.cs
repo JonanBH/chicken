@@ -22,7 +22,14 @@ public class GameController : MonoBehaviour
     private TMP_Text scoreText;
     [SerializeField]
     private GameObject gameOverPanel;
+    [SerializeField]
+    private float distanceToScore = 15;
+    [SerializeField]
+    private int pointsPerDistance = 1;
+
+    private double distanceMoved = 0;
     private int score = 0;
+    private double lastDistanceScored = 0;
 
     public static bool isPlaying = false;
     public static GameController singleton;
@@ -35,23 +42,35 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         CharacterController.OnShootProjectile += HandleProjectileSpawn;
+
+        StartGame();
     }
 
     private void Update()
     {
         //if (!isPlaying) return;
 
-        if(Input.touchCount > 0)
+#if UNITY_EDITOR
+        if (Input.GetButtonDown("Fire1"))
+        {
+            characterController.OnAction();
+        }
+#endif
+
+        if (Input.touchCount > 0)
         {
             UnityEngine.Touch touch = Input.touches[0];
 
             if(touch.phase == TouchPhase.Began)
             {
-                characterController.Flap();
+                characterController.OnAction();
             }
         }
 
         MapGenerator.Instance.MoveMap(Vector3.left * mapSpeed * Time.deltaTime);
+        distanceMoved += mapSpeed * Time.deltaTime;
+
+        CheckDistanceScore();
     }
 
     private void StartGame()
@@ -78,6 +97,15 @@ public class GameController : MonoBehaviour
         Vector3 minHeight = Vector3.up * gameOverHeigth;
         Gizmos.DrawLine(Vector3.left * 3 + maxHeight, Vector3.right * 3 + maxHeight);
         Gizmos.DrawLine(Vector3.left * 3 + minHeight, Vector3.right * 3 + minHeight);
+    }
+
+    private void CheckDistanceScore()
+    {
+        while (distanceMoved - lastDistanceScored >= distanceToScore)
+        {
+            AddScore(pointsPerDistance);
+            lastDistanceScored += distanceToScore;
+        }
     }
 
     public float MaxHeigth
