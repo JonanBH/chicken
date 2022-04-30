@@ -144,6 +144,10 @@ PrefabInstance:
       value: Chicken
       objectReference: {fileID: 0}
     - target: {fileID: 6711402420372775838, guid: e07eacb06c30c74428166bc60cf8da53, type: 3}
+      propertyPath: jumpForce
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6711402420372775838, guid: e07eacb06c30c74428166bc60cf8da53, type: 3}
       propertyPath: projectilePrefab
       value: 
       objectReference: {fileID: 296592730637389346, guid: ed7e609e0c8dce847970df03feab858e, type: 3}

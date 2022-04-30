@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour
     private double distanceMoved = 0;
     private int score = 0;
     private double lastDistanceScored = 0;
-
+    private int coinsCollected = 0;
     public static bool isPlaying = false;
     public static GameController singleton;
 
@@ -76,6 +76,9 @@ public class GameController : MonoBehaviour
     private void StartGame()
     {
         characterController.Init(startingPosition.position);
+        score = 0;
+        UpdateScore();
+        coinsCollected = 0;
     }
 
     public void StartGameOnClick()
@@ -143,5 +146,10 @@ public class GameController : MonoBehaviour
     public void PlayAgain()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void AddCoins(int amount)
+    {
+        coinsCollected += amount;
     }
 }
