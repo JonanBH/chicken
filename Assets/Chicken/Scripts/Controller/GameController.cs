@@ -26,9 +26,11 @@ public class GameController : MonoBehaviour
     private float distanceToScore = 15;
     [SerializeField]
     private int pointsPerDistance = 1;
+    [SerializeField]
+    private int scoreToCoinConversion = 50;
 
     private double distanceMoved = 0;
-    private int score = 0;
+    private long score = 0;
     private double lastDistanceScored = 0;
     private int coinsCollected = 0;
     public static bool isPlaying = false;
@@ -46,16 +48,19 @@ public class GameController : MonoBehaviour
         StartGame();
     }
 
+    private void OnDestroy()
+    {
+        CharacterController.OnShootProjectile -= HandleProjectileSpawn;
+    }
+
     private void Update()
     {
-        //if (!isPlaying) return;
+        if (!isPlaying) return;
 
-#if UNITY_EDITOR
         if (Input.GetButtonDown("Fire1"))
         {
             characterController.OnAction();
         }
-#endif
 
         if (Input.touchCount > 0)
         {
@@ -78,6 +83,7 @@ public class GameController : MonoBehaviour
         characterController.Init(startingPosition.position);
         score = 0;
         UpdateScore();
+        isPlaying = true;
         coinsCollected = 0;
     }
 
@@ -111,6 +117,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private int ConvertScoreToCoins()
+    {
+        return (int)(score / scoreToCoinConversion);
+    }
+
     public float MaxHeigth
     {
         get
@@ -141,11 +152,28 @@ public class GameController : MonoBehaviour
     public void GameOver()
     {
         gameOverPanel.SetActive(true);
+        isPlaying = false;
+
     }
 
     public void PlayAgain()
     {
+        MatchEnded();
         SceneManager.LoadScene(0);
+    }
+
+    public void QuitToMenu()
+    {
+        MatchEnded();
+    }
+
+    private void MatchEnded()
+    {
+        int totalCoins = coinsCollected + ConvertScoreToCoins();
+        
+        PlayerState.singleton.AddCoins(totalCoins);
+        PlayerState.singleton.UpdateHighscore(score);
+        PlayerState.singleton.MatchEnded();
     }
 
     public void AddCoins(int amount)

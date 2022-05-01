@@ -34,6 +34,7 @@ public class CharacterController : MonoBehaviour
     public event System.Action OnLanded;
     public event System.Action OnFlaped;
     public event System.Action OnJumped;
+    public event System.Action OnTookDamage;
     public event System.Action<float, float> OnEnergyUpdated;
 
     private enum ChickenState { IDLE, WALKING, JUMPING, FLYING, FALLING, DEAD }
@@ -42,7 +43,8 @@ public class CharacterController : MonoBehaviour
     private bool playing = true;
     private bool flyBlocked = false;
     private bool isGrounded = true;
-    private ChickenState chickenState = ChickenState.IDLE;
+    private bool isShielded = false;
+    private ChickenState currentState = ChickenState.IDLE;
 
     public static Action<GameObject> OnShootProjectile;
 
@@ -50,7 +52,7 @@ public class CharacterController : MonoBehaviour
     {
         transform.position = position;
         visualAxis.rotation = Quaternion.identity;
-        chickenState = ChickenState.FLYING;
+        currentState = ChickenState.FLYING;
         currentEnergy = maxEnergy;
     }
 
@@ -118,7 +120,7 @@ public class CharacterController : MonoBehaviour
 
     public void OnAction()
     {
-        switch (chickenState)
+        switch (currentState)
         {
             case ChickenState.WALKING:
                 Jump();
@@ -133,7 +135,7 @@ public class CharacterController : MonoBehaviour
 
     private void ChangeState(ChickenState newState)
     {
-        chickenState = newState;
+        currentState = newState;
     }
 
     private void Jump()
@@ -146,6 +148,26 @@ public class CharacterController : MonoBehaviour
         ChangeState(ChickenState.JUMPING);
 
         OnJumped?.Invoke();
+    }
+
+    public void TakeDamage()
+    {
+        if (currentState == ChickenState.DEAD) return;
+
+        if (isShielded)
+        {
+            isShielded = false;
+        }
+        else
+        {
+            GameController.singleton.GameOver();
+            ChangeState(ChickenState.DEAD);
+        }
+
+        if(OnTookDamage != null)
+        {
+            OnTookDamage();
+        }
     }
 
     public void Flap()
@@ -164,11 +186,16 @@ public class CharacterController : MonoBehaviour
         ChangeState(ChickenState.FLYING);
     }
 
+    public void Revive()
+    {
+        ChangeState(ChickenState.WALKING);
+    }
+
     #region ChickenStates
 
     private void HandleCurrentState()
     {
-        switch (chickenState)
+        switch (currentState)
         {
             case ChickenState.JUMPING:
                 HandleJumpingState();

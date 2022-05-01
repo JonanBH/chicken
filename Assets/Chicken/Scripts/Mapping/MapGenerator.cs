@@ -12,6 +12,18 @@ public class MapGenerator : MonoBehaviour
     private int startingPlataforms = 10;
     [SerializeField]
     private Transform tilesContainer;
+    public List<Spawn> targetPrefabs;
+    [SerializeField]
+    private Transform groundPosition;
+    [SerializeField]
+    private Transform aerealPosition;
+    [SerializeField]
+    private Transform entitiesParent;
+    [SerializeField]
+    private Transform collectablesParent;
+    [SerializeField]
+    private List<Collectable> collectables = new List<Collectable>();
+
     private int remainingCurves = 3;
     private float nextCurveIn;
     private List<MapTile> mapTiles = new List<MapTile>();
@@ -20,13 +32,6 @@ public class MapGenerator : MonoBehaviour
     private int remainingCurveSize = 0;
     private long nextPiExponent = 0;
     public static MapGenerator Instance;
-    public List<Spawn> targetPrefabs;
-    [SerializeField]
-    private Transform groundPosition;
-    [SerializeField]
-    private Transform aerealPosition;
-    [SerializeField]
-    private Transform entitiesParent;
 
     [System.Serializable]
     public class Spawn
@@ -51,14 +56,6 @@ public class MapGenerator : MonoBehaviour
         for (int i = 0; i < startingPlataforms; i++)
         {
             GenerateNext(true);
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            GenerateNext();
         }
     }
 
@@ -112,6 +109,11 @@ public class MapGenerator : MonoBehaviour
         foreach (MapTile tile in mapTiles)
         {
             tile.Move(movement);
+        }
+
+        foreach (Collectable collectable in collectables)
+        {
+            collectable.Move(movement);
         }
     }
 

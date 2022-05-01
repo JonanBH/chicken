@@ -6,6 +6,10 @@ public class Collectable : MonoBehaviour
 {
 
     public event System.Action<GameObject> OnCollected;
+
+    [SerializeField]
+    [Range(0.1f, 10f)]
+    private float mapSpeedMod = 1;
     protected virtual void OnCollect()
     {
         if(OnCollected != null)
@@ -25,5 +29,10 @@ public class Collectable : MonoBehaviour
             Destroy(gameObject);
         }
         
+    }
+
+    public void Move(Vector3 movement)
+    {
+        transform.position += movement * mapSpeedMod;
     }
 }
