@@ -21,7 +21,7 @@ public class Projectile : MonoBehaviour
         {
             Target target = collision.gameObject.GetComponent<Target>();
             target.HandleHit();
-            Destroy(gameObject);
         }
+        Destroy(gameObject);
     }
 }

@@ -22,8 +22,17 @@ public class GameController : MonoBehaviour
     private TMP_Text scoreText;
     [SerializeField]
     private GameObject gameOverPanel;
-    private int score = 0;
+    [SerializeField]
+    private float distanceToScore = 15;
+    [SerializeField]
+    private int pointsPerDistance = 1;
+    [SerializeField]
+    private int scoreToCoinConversion = 50;
 
+    private double distanceMoved = 0;
+    private long score = 0;
+    private double lastDistanceScored = 0;
+    private int coinsCollected = 0;
     public static bool isPlaying = false;
     public static GameController singleton;
 
@@ -35,28 +44,47 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         CharacterController.OnShootProjectile += HandleProjectileSpawn;
+
+        StartGame();
+    }
+
+    private void OnDestroy()
+    {
+        CharacterController.OnShootProjectile -= HandleProjectileSpawn;
     }
 
     private void Update()
     {
-        //if (!isPlaying) return;
+        if (!isPlaying) return;
 
-        if(Input.touchCount > 0)
+        if (Input.GetButtonDown("Fire1"))
+        {
+            characterController.OnAction();
+        }
+
+        if (Input.touchCount > 0)
         {
             UnityEngine.Touch touch = Input.touches[0];
 
             if(touch.phase == TouchPhase.Began)
             {
-                characterController.Flap();
+                characterController.OnAction();
             }
         }
 
         MapGenerator.Instance.MoveMap(Vector3.left * mapSpeed * Time.deltaTime);
+        distanceMoved += mapSpeed * Time.deltaTime;
+
+        CheckDistanceScore();
     }
 
     private void StartGame()
     {
         characterController.Init(startingPosition.position);
+        score = 0;
+        UpdateScore();
+        isPlaying = true;
+        coinsCollected = 0;
     }
 
     public void StartGameOnClick()
@@ -78,6 +106,20 @@ public class GameController : MonoBehaviour
         Vector3 minHeight = Vector3.up * gameOverHeigth;
         Gizmos.DrawLine(Vector3.left * 3 + maxHeight, Vector3.right * 3 + maxHeight);
         Gizmos.DrawLine(Vector3.left * 3 + minHeight, Vector3.right * 3 + minHeight);
+    }
+
+    private void CheckDistanceScore()
+    {
+        while (distanceMoved - lastDistanceScored >= distanceToScore)
+        {
+            AddScore(pointsPerDistance);
+            lastDistanceScored += distanceToScore;
+        }
+    }
+
+    private int ConvertScoreToCoins()
+    {
+        return (int)(score / scoreToCoinConversion);
     }
 
     public float MaxHeigth
@@ -110,10 +152,32 @@ public class GameController : MonoBehaviour
     public void GameOver()
     {
         gameOverPanel.SetActive(true);
+        isPlaying = false;
+
     }
 
     public void PlayAgain()
     {
+        MatchEnded();
         SceneManager.LoadScene(0);
+    }
+
+    public void QuitToMenu()
+    {
+        MatchEnded();
+    }
+
+    private void MatchEnded()
+    {
+        int totalCoins = coinsCollected + ConvertScoreToCoins();
+        
+        PlayerState.singleton.AddCoins(totalCoins);
+        PlayerState.singleton.UpdateHighscore(score);
+        PlayerState.singleton.MatchEnded();
+    }
+
+    public void AddCoins(int amount)
+    {
+        coinsCollected += amount;
     }
 }

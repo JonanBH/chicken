@@ -10,15 +10,15 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - Player
   - Targets
   - Projectile
-  - 
-  - 
-  - 
+  - Collectables
+  - Hazards
+  - MapChecks
   - 
   - 
   - 
@@ -51,6 +51,9 @@ TagManager:
     locked: 0
   - name: Characters
     uniqueID: 2163751013
+    locked: 0
+  - name: Hazards
+    uniqueID: 2215452045
     locked: 0
   - name: Projectiles
     uniqueID: 3982884549
