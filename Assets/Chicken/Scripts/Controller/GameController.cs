@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -28,6 +29,8 @@ public class GameController : MonoBehaviour
     private int pointsPerDistance = 1;
     [SerializeField]
     private int scoreToCoinConversion = 50;
+    [SerializeField]
+    private Button reviveBtn;
 
     private double distanceMoved = 0;
     private long score = 0;
@@ -35,6 +38,7 @@ public class GameController : MonoBehaviour
     private int coinsCollected = 0;
     public static bool isPlaying = false;
     public static GameController singleton;
+    private bool hasRevived = false;
 
     private void Awake()
     {
@@ -159,12 +163,21 @@ public class GameController : MonoBehaviour
     public void PlayAgain()
     {
         MatchEnded();
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void QuitToMenu()
     {
         MatchEnded();
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void Revive()
+    {
+        isPlaying = true;
+        characterController.Revive();
+        gameOverPanel.SetActive(false);
+        reviveBtn.interactable = false;
     }
 
     private void MatchEnded()
