@@ -70,4 +70,9 @@ public class PlayerState : MonoBehaviour
     {
         SaveSystem.SaveGame(saveData);
     }
+
+    public long GetHighscore()
+    {
+        return saveData.highscore;
+    }
 }
