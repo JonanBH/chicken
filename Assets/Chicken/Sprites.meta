@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 5b7961dfd900bf94b870e38ac88261c8
+=======
+guid: 6b69113cd34e18c40a033327dcf503a9
+>>>>>>> origin/import_sprites
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
