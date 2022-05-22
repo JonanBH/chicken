@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1441467227110286564}
   - component: {fileID: 1441467227110286587}
+  - component: {fileID: 5290281921907498301}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -88,3 +89,20 @@ MonoBehaviour:
   pointsPerDistance: 1
   scoreToCoinConversion: 50
   reviveBtn: {fileID: 0}
+  adController: {fileID: 5290281921907498301}
+--- !u!114 &5290281921907498301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441467227110286586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09ce82dcd99c2764cbd1398d79bde5af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AndroidGameId: 4757179
+  IsRewardAdsReady: 0
+  IOSGameId: 4757178
+  TestMode: 1

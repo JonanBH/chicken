@@ -2030,7 +2030,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1733936126770569754, guid: f22e2e26e1e0df749bd2940700b17d88, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Revive
+      value: CallForRevive
       objectReference: {fileID: 0}
     - target: {fileID: 1733936126770569754, guid: f22e2e26e1e0df749bd2940700b17d88, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

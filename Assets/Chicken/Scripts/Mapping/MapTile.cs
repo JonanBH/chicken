@@ -25,7 +25,7 @@ public class MapTile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log(other.gameObject);
+        //Debug.Log(other.gameObject);
         if (!other.CompareTag("Player")) return;
 
         MapGenerator.Instance.GenerateNext();
