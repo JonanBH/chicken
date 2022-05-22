@@ -10,10 +10,18 @@ public class Target : MonoBehaviour
     private float speed = 0;
     [SerializeField]
     private Rigidbody2D rb2d;
+    [SerializeField]
+    private SpriteRenderer renderer;
 
     private void Awake()
     {
         speed = Random.Range(minSpeed, maxSpeed);
+    }
+
+    private void Start()
+    {
+        Color randomCol = new Color(Random.Range(0, 1.0f), Random.Range(0, 1.0f), Random.Range(0, 1.0f));
+        renderer.material.SetColor("_Color", randomCol);
     }
 
     private void FixedUpdate()
