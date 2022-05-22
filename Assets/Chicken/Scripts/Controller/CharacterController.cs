@@ -29,6 +29,16 @@ public class CharacterController : MonoBehaviour
     private float energyCostPerFlap = 10;
     [SerializeField]
     private float energyRecoverPerSecond = 10;
+    [SerializeField]
+    private Animator animator;
+
+    [SerializeField]
+    private AudioSource chickenWingFlapAudio;
+    [SerializeField]
+    private AudioSource chickenDiedAudio;
+    [SerializeField]
+    private AudioSource chickenJumpAudio;
+
     
 
     public event System.Action OnLanded;
@@ -92,11 +102,7 @@ public class CharacterController : MonoBehaviour
         }
 
         isGrounded = newIsGrounded;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
+        animator.SetBool("IsFlying", !isGrounded);
     }
 
     private void UnlockFly()
@@ -143,11 +149,12 @@ public class CharacterController : MonoBehaviour
         if (isGrounded)
         {
             _rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            chickenJumpAudio.Play();
+
+            ChangeState(ChickenState.JUMPING);
+
+            OnJumped?.Invoke();
         }
-
-        ChangeState(ChickenState.JUMPING);
-
-        OnJumped?.Invoke();
     }
 
     public void TakeDamage()
@@ -162,6 +169,7 @@ public class CharacterController : MonoBehaviour
         {
             GameController.singleton.GameOver();
             ChangeState(ChickenState.DEAD);
+            chickenDiedAudio.Play();
         }
 
         if(OnTookDamage != null)
@@ -182,6 +190,8 @@ public class CharacterController : MonoBehaviour
 
         OnFlaped?.Invoke();
         OnShootProjectile?.Invoke(projectilePrefab);
+
+        chickenWingFlapAudio.Play();
 
         ChangeState(ChickenState.FLYING);
     }
