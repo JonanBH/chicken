@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: Default
   m_EditorClassIdentifier: 
   AreaName: 
+  PossibleRewardsPrefabs:
+  - {fileID: 4013561636295692176, guid: abfd07b8d02b0b5409258ea034656088, type: 3}
+  - {fileID: 6133231999741235081, guid: 098c93ad30dd9914ba2819f7b03cb1bc, type: 3}
+  SpawnRewardProbability: 0.2

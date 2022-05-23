@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4013561636295692179}
   - component: {fileID: 3107096354509608273}
   - component: {fileID: 7947585224785195441}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 535142efd2b88fc40b1a71ef894927b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapSpeedMod: 1
   coinAmount: 1
 --- !u!58 &7947585224785195441
 CircleCollider2D:

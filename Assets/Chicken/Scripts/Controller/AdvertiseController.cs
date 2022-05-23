@@ -35,9 +35,9 @@ public class AdvertiseController : MonoBehaviour, IUnityAdsInitializationListene
 
     public void InitializeAds()
     {
-        string gameId = (Application.platform != RuntimePlatform.Android ? AndroidGameId : IOSGameId);
+        //string gameId = (Application.platform != RuntimePlatform.Android ? AndroidGameId : IOSGameId);
 
-        gameId = AndroidGameId;
+        string gameId = AndroidGameId;
         Advertisement.Initialize(gameId, TestMode, this);
     }
 
@@ -50,6 +50,7 @@ public class AdvertiseController : MonoBehaviour, IUnityAdsInitializationListene
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
     {
         Debug.Log("Initialization failed");
+        Debug.Log("Reason : " + message);
         //InitializeAds();
     }
     public void ShowRewardedAd()
