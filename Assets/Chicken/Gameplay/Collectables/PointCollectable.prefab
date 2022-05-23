@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 849069ab850a37e41b772ba44650ad6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapSpeedMod: 1
   pointsAmount: 5
 --- !u!1 &6133231999741235081
 GameObject:
@@ -144,7 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 849069ab850a37e41b772ba44650ad6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointsAmount: 1
+  mapSpeedMod: 1
+  pointsAmount: 15
 --- !u!70 &598865028820278510
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

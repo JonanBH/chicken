@@ -22,6 +22,8 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private TMP_Text scoreText;
     [SerializeField]
+    private TMP_Text coinsText;
+    [SerializeField]
     private GameObject gameOverPanel;
     [SerializeField]
     private float distanceToScore = 15;
@@ -208,5 +210,6 @@ public class GameController : MonoBehaviour
     public void AddCoins(int amount)
     {
         coinsCollected += amount;
+        coinsText.text = coinsCollected.ToString();
     }
 }

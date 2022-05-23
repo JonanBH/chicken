@@ -2850,6 +2850,10 @@ PrefabInstance:
       value: GameController
       objectReference: {fileID: 0}
     - target: {fileID: 1441467227110286587, guid: f8a7a2bac34fa324ba86678a3eb950d1, type: 3}
+      propertyPath: coinsText
+      value: 
+      objectReference: {fileID: 2127964721}
+    - target: {fileID: 1441467227110286587, guid: f8a7a2bac34fa324ba86678a3eb950d1, type: 3}
       propertyPath: reviveBtn
       value: 
       objectReference: {fileID: 1859013221}
