@@ -31,6 +31,8 @@ public class GameController : MonoBehaviour
     private int scoreToCoinConversion = 50;
     [SerializeField]
     private Button reviveBtn;
+    [SerializeField]
+    private AdvertiseController adController;
 
     private double distanceMoved = 0;
     private long score = 0;
@@ -172,12 +174,26 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void Revive()
+    public void CallForRevive()
+    {
+        adController.ShowRewardedAd();
+        adController.OnRewardedComplete += Revive;
+        adController.OnRewardedFailed += DisableAdsListener;
+    }
+
+    private void Revive()
     {
         isPlaying = true;
         characterController.Revive();
         gameOverPanel.SetActive(false);
         reviveBtn.interactable = false;
+        DisableAdsListener();
+    }
+
+    private void DisableAdsListener()
+    {
+        adController.OnRewardedComplete -= Revive;
+        adController.OnRewardedFailed -= DisableAdsListener;
     }
 
     private void MatchEnded()

@@ -11,6 +11,9 @@ public class MapTile : MonoBehaviour
     private Transform anchor;
     [SerializeField]
     private MapTileType mapTileType;
+    [SerializeField]
+    private List<Transform> rewardSpawnPositions = new List<Transform>();
+    private List<GameObject> spawnedRewards = new List<GameObject>();
     private Quaternion currentRotation;
     private bool hasSwipeSucceeded = false;
 
@@ -21,11 +24,37 @@ public class MapTile : MonoBehaviour
     {
         transform.rotation = Quaternion.identity;
         currentRotation = Quaternion.identity;
+
+        foreach(GameObject reward in spawnedRewards)
+        {
+            if(reward != null)
+                Destroy(reward);
+        }
+
+        spawnedRewards.Clear();
+    }
+
+    public void SpawnRewards()
+    {
+        if (rewardSpawnPositions.Count == 0)
+            return;
+
+        float rng = UnityEngine.Random.value;
+        if(rng <= mapTileType.SpawnRewardProbability)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, spawnedRewards.Count);
+
+            GameObject reward = Instantiate(mapTileType.GetRandomReward());
+            reward.transform.SetParent(transform);
+            reward.transform.position = rewardSpawnPositions[randomIndex].position;
+
+            spawnedRewards.Add(reward);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log(other.gameObject);
+        //Debug.Log(other.gameObject);
         if (!other.CompareTag("Player")) return;
 
         MapGenerator.Instance.GenerateNext();

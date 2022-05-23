@@ -96,6 +96,7 @@ public class MapGenerator : MonoBehaviour
         MapTile tile = MapTilePool.Instance.GetMapTile(currentMapTileType);
         tile.Reset();
         Transform connector = mapTiles[mapTiles.Count - 1].GetRightConnector();
+        tile.SpawnRewards();
         tile.transform.position = connector.position + tile.transform.right * tile.GetOffsetVector().magnitude;
         tile.gameObject.SetActive(true);
         tile.transform.parent = tilesContainer;
