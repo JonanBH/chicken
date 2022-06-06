@@ -22,6 +22,8 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private TMP_Text scoreText;
     [SerializeField]
+    private TMP_Text finalScoreText;
+    [SerializeField]
     private TMP_Text coinsText;
     [SerializeField]
     private GameObject gameOverPanel;
@@ -155,6 +157,7 @@ public class GameController : MonoBehaviour
     public void UpdateScore()
     {
         scoreText.text = "Points = " + score;
+        finalScoreText.text = "YOUR SCORE  " + score;
     }
 
     public void GameOver()
